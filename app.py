@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 
 app = Flask(__name__)
-reader = easyocr.Reader(['en'])
+reader = easyocr.Reader(['en'],gpu=False)
 @app.route('/')
 def home():
     return "EasyOCR API is running!"
@@ -18,7 +18,7 @@ def ocr():
     img = np.frombuffer(file.read(), np.uint8)
     img = cv2.imdecode(img, cv2.IMREAD_COLOR)
 
-    result = reader.readtext(img)
+    result = reader.readtext(img , details=0)
     extracted_text = " ".join([text[1] for text in result])
 
     return jsonify({'text': extracted_text})
