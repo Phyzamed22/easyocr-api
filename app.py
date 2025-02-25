@@ -5,6 +5,9 @@ import cv2
 
 app = Flask(__name__)
 reader = easyocr.Reader(['en'])
+@app.route('/')
+def home():
+    return "EasyOCR API is running!"
 
 @app.route('/ocr', methods=['POST'])
 def ocr():
@@ -20,5 +23,6 @@ def ocr():
 
     return jsonify({'text': extracted_text})
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 10000))  # Use Render's assigned port or default to 10000
+    app.run(host="0.0.0.0", port=port)
